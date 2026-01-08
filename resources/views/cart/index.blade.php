@@ -47,10 +47,14 @@
 
                         <tr class="cart_item">
                             <td>
-                                <img width="91" src="{{ asset('admin/images/products/'.$image) }}">
+                                <a href="{{ route('product.show', is_array($item) ? $item['slug'] : $item->product->slug) }}">
+                                    <img width="91" src="{{ asset('admin/images/products/'.$image) }}">
+                                </a>
                             </td>
 
-                            <td>{{ $name }}</td>
+                            <td>
+                                <a href="{{ route('product.show', is_array($item) ? $item['slug'] : $item->product->slug) }}">{{ $name }}</a>
+                            </td>
 
                             <td>₹{{ $price }}</td>
 
