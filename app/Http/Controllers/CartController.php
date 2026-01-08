@@ -14,9 +14,14 @@ public function cart()
 {
     // ✅ LOGGED IN USER
     if (auth()->check()) {
-        return Cart::firstOrCreate([
+        $cart = Cart::firstOrCreate([
             'user_id' => auth()->id(),
         ]);
+
+        // eager-load items + product to avoid N+1 in views/controllers
+        $cart->load('items.product');
+
+        return $cart;
     }
 
     // ✅ GUEST USER
@@ -29,9 +34,14 @@ public function cart()
         $guestToken = guestToken(); // generate only once
     }
 
-    return Cart::firstOrCreate([
+    $cart = Cart::firstOrCreate([
         'guest_token' => $guestToken,
     ]);
+
+    // eager-load items + product for guest carts as well
+    $cart->load('items.product');
+
+    return $cart;
 }
 
     // ---------------------------
