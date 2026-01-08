@@ -33,9 +33,9 @@ class AboutSectionController extends Controller
 
         if ($request->hasFile('image')) {
             if ($about->image) {
-                Storage::disk('public')->delete($about->image);
+                deleteImage($about->image, 'public');
             }
-            $about->image = $request->file('image')->store('about', 'public');
+            $about->image = storeImage($request->file('image'), 'about', 'public', 'about');
         }
 
         $about->is_active = true;

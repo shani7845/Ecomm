@@ -34,7 +34,7 @@ class TestimonialController extends Controller
         $data['is_active'] = true;
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('testimonials', 'public');
+            $data['image'] = storeImage($request->file('image'), 'testimonials', 'public', 'testi');
         }
 
         Testimonial::create($data);
@@ -76,10 +76,10 @@ public function destroy(Testimonial $testimonial)
 
             if ($request->hasFile('image')) {
                 if ($testimonial->image) {
-                    Storage::disk('public')->delete($testimonial->image);
+                    deleteImage($testimonial->image, 'public');
                 }
 
-                $testimonial->image = $request->file('image')->store('testimonials', 'public');
+                $testimonial->image = storeImage($request->file('image'), 'testimonials', 'public', 'testi');
             }
 
             $testimonial->save();

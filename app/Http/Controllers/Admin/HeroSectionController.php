@@ -30,13 +30,12 @@ class HeroSectionController extends Controller
 
         // 🔹 Hero Image Upload
        if ($request->hasFile('hero_image')) {
+            if ($hero->hero_image) {
+                deleteImage($hero->hero_image, 'public');
+            }
 
-    if ($hero->hero_image && Storage::disk('public')->exists($hero->hero_image)) {
-        Storage::disk('public')->delete($hero->hero_image);
-    }
-
-    $hero->hero_image = $request->file('hero_image')->store('hero', 'public');
-}
+            $hero->hero_image = storeImage($request->file('hero_image'), 'hero', 'public', 'hero');
+        }
 
 
         $hero->is_active = true;

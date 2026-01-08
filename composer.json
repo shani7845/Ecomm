@@ -34,7 +34,8 @@
             "App\\": "app/"
         },
         "files": [
-            "app/Helpers/CartHelper.php"
+            "app/Helpers/CartHelper.php",
+            "app/Helpers/StorageHelper.php"
         ]
     },
 
