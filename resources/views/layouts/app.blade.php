@@ -30,6 +30,8 @@
     .skeleton-title{ width:60%; height:18px; margin:12px 0; }
     .skeleton-sub{ width:40%; height:14px; margin-bottom:8px; }
     .skeleton-text{ width:100%; height:12px; margin:6px 0; }
+    /* disabled icon button for out-of-stock */
+    .icon-btn.disabled{ opacity:0.6; cursor:not-allowed; }
     </style>
 
 
@@ -93,6 +95,7 @@ function loadProducts(categoryId, el) {
         .then(res => res.text())
         .then(html => {
             document.getElementById('product-area').innerHTML = html;
+            initTooltips();
         })
         .catch(() => {
             // restore a friendly message on error
@@ -110,6 +113,7 @@ document.addEventListener('click', function(e){
             .then(res => res.text())
             .then(html => {
                 document.getElementById('product-area').innerHTML = html;
+                initTooltips();
             })
             .catch(()=>{
                 document.getElementById('product-area').innerHTML = '<p class="text-center">Failed to load products.</p>';
@@ -149,6 +153,84 @@ document.addEventListener('click', function(e){
                 }
             });
     }
+    </script>
+
+    <script>
+    function addToCart(productId, el){
+        // simple UI feedback
+        var orig = el.innerHTML;
+        el.disabled = true;
+        el.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+
+        fetch("{{ route('cart.add') }}", {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                'Content-Type': 'application/json',
+                'X-GUEST-TOKEN': localStorage.getItem('guest_token')
+            },
+            body: JSON.stringify({ product_id: productId, qty: 1 })
+        })
+        .then(res => res.json())
+        .then(res => {
+            if(res.success){
+                // update cart-count badges
+                document.querySelectorAll('.cart-count').forEach(el => el.innerText = res.count);
+
+                // update side cart HTML if returned
+                if(res.side_cart_html){
+                    var side = document.getElementById('side-cart-content');
+                    if(side) side.innerHTML = res.side_cart_html;
+                    // initialize tooltips inside side cart if present
+                    initTooltips();
+                }
+
+                // if server sent guest_token, persist it for subsequent requests
+                if(res.guest_token){
+                    localStorage.setItem('guest_token', res.guest_token);
+                    document.cookie = 'guest_token=' + res.guest_token + '; path=/; max-age=' + (60*60*24*30);
+                }
+
+                // small success feedback
+                el.innerHTML = '<i class="fa fa-check"></i>';
+                setTimeout(()=>{ el.innerHTML = orig; el.disabled = false; }, 700);
+            } else {
+                el.innerHTML = orig;
+                el.disabled = false;
+                alert(res.message || 'Failed to add to cart');
+            }
+        })
+        .catch(err => {
+            el.innerHTML = orig;
+            el.disabled = false;
+            alert('Failed to add to cart');
+        });
+    }
+    </script>
+
+    <script>
+    function initTooltips(){
+        try{
+            if(window.bootstrap && typeof window.bootstrap.Tooltip === 'function'){
+                // dispose any existing tooltips to avoid duplicates
+                document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el){
+                    if(el._tooltip){ try{ el._tooltip.dispose(); }catch(e){}
+                    }
+                });
+
+                // initialize
+                document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el){
+                    var t = new window.bootstrap.Tooltip(el, {delay:{"show":50,"hide":50}});
+                    // store reference for potential disposal
+                    el._tooltip = t;
+                });
+            }
+        }catch(e){ console.error('Tooltip init error', e); }
+    }
+
+    // initialize on initial page load
+    document.addEventListener('DOMContentLoaded', function(){ initTooltips(); });
     </script>
 
     <script>

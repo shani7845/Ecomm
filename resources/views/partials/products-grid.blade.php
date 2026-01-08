@@ -10,9 +10,15 @@
                 <img src="{{ asset('admin/images/products/'.$product->image) }}" alt="{{ $product->name }}">
 
                 <div class="actions">
-                    <a href="javascript:void(0)" class="icon-btn">
-                        <i class="far fa-cart-plus"></i>
-                    </a>
+                    @if($product->stock > 0)
+                        <button type="button" class="icon-btn" onclick="addToCart({{ $product->id }}, this)">
+                            <i class="far fa-cart-plus"></i>
+                        </button>
+                    @else
+                        <button type="button" class="icon-btn disabled" disabled title="Out of stock" aria-disabled="true" data-bs-toggle="tooltip">
+                            <i class="fas fa-ban"></i>
+                        </button>
+                    @endif
                 </div>
             </div>
 
