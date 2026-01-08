@@ -33,6 +33,9 @@ Route::get('/categories/{slug}', [CategoryController::class, 'show'])
 Route::get('/product/{slug}', [ProductController::class, 'show'])
     ->name('product.show');
 
+    Route::get('/search', [ProductController::class, 'search'])
+    ->name('products.search');
+
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
