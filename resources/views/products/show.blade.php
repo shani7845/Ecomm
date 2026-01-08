@@ -10,8 +10,21 @@
                 <div class="product-big-img">
                     <div class="food-mask" data-mask-src="assets/img/bg/menu-1-msk-bg.png"></div>
                     <div class="img">
-                        <img src="{{ $product->image ? asset('admin/images/products/'.$product->image) : asset('admin/images/no-image.png') }}"
+                        <img id="main-product-image" src="{{ $product->image ? asset('admin/images/products/'.$product->image) : asset('admin/images/no-image.png') }}"
                             alt="Product Image">
+                    </div>
+
+                    <div class="thumbs mt-3 d-flex gap-2">
+                        @php
+                            $imageUrl = $product->image ? asset('admin/images/products/'.$product->image) : asset('admin/images/no-image.png');
+                            $thumbs = [$imageUrl];
+                        @endphp
+
+                        @foreach($thumbs as $thumb)
+                            <div class="thumb-item" style="cursor:pointer;">
+                                <img src="{{ $thumb }}" width="80" height="80" style="object-fit:cover;border:1px solid #eee;" data-src="{{ $thumb }}" class="thumb-image">
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -82,7 +95,13 @@
                     <div class="product_meta mt-3">
                         <span>
                             Category:
-                            <strong>{{ $product->category->name }}</strong>
+                            @if($product->category)
+                                <a href="{{ route('categories.show', $product->category->slug) }}">
+                                    <strong>{{ $product->category->name }}</strong>
+                                </a>
+                            @else
+                                <strong>—</strong>
+                            @endif
                         </span>
                     </div>
                 </div>
@@ -91,6 +110,32 @@
         </div>
     </div>
 </section>
+@if(isset($relatedProducts) && $relatedProducts->count())
+<section class="related-products space-top">
+    <div class="container">
+        <h3 class="h4 mb-30">Related Products</h3>
+
+        <div class="row gy-40">
+            @foreach($relatedProducts as $rp)
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="food-card-1 style-2">
+                        <div class="thumb">
+                            <img src="{{ asset('admin/images/products/'.$rp->image) }}" alt="{{ $rp->name }}">
+                        </div>
+                        <div class="content">
+                            <h4 class="price">₹{{ $rp->price }}</h4>
+                            <h4 class="box-title">
+                                <a href="{{ route('product.show', $rp->slug) }}">{{ $rp->name }}</a>
+                            </h4>
+                            <p class="box-text">{{ \Illuminate\Support\Str::limit($rp->description, 80) }}</p>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
 <script src="{{ asset('assets/js/vendor/jquery-3.7.1.min.js') }}"></script>
 
 
@@ -126,8 +171,8 @@ document.addEventListener('DOMContentLoaded', function () {
         let input = document.querySelector('.qty-input');
         let qty = input ? (parseInt(input.value) || 0) : 0;
 
-        // disable when no stock or requested qty is equal/above stock
-        btn.disabled = stock <= 0 || qty >= stock;
+        // disable when no stock or requested qty exceeds stock
+        btn.disabled = stock <= 0 || qty > stock;
     }
 
     // update availability badge text + styling
@@ -139,8 +184,8 @@ document.addEventListener('DOMContentLoaded', function () {
         let span = document.querySelector('.stock');
         if (!span) return;
 
-        // if total stock is zero OR user selected qty reached total stock -> treat as out of stock
-        if (stock <= 0 || qty >= stock) {
+        // if total stock is zero OR user selected qty exceeds total stock -> treat as out of stock
+        if (stock <= 0 || qty > stock) {
             span.className = 'stock out-of-stock text-danger';
             span.innerHTML = '❌ Out of Stock';
             return;
@@ -239,7 +284,7 @@ document.addEventListener('click', function (e) {
         return;
     }
 
-    if (qty >= stock) {
+    if (qty > stock) {
         alert('Only ' + stock + ' left in stock');
         return;
     }
@@ -286,6 +331,18 @@ document.addEventListener('click', function (e) {
         alert('Added to cart');
     })
     .catch(() => alert('Server error'));
+});
+</script>
+
+
+<script>
+// thumbnail click -> swap main image
+document.addEventListener('click', function(e){
+    if (e.target.classList && e.target.classList.contains('thumb-image')){
+        var src = e.target.dataset.src;
+        var main = document.getElementById('main-product-image');
+        if (main && src) main.src = src;
+    }
 });
 </script>
 
