@@ -22,6 +22,16 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- @vite(['resources/js/app.js']) -->
 
+    <style>
+    /* Skeleton loader styles */
+    .skeleton { display: block; background: linear-gradient(90deg,#f0f0f0 25%,#e6e6e6 37%,#f0f0f0 63%); background-size: 400% 100%; animation: shimmer 1.2s linear infinite; border-radius:4px; }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    .skeleton-img{ width:100%; height:180px; display:block; border-radius:8px; }
+    .skeleton-title{ width:60%; height:18px; margin:12px 0; }
+    .skeleton-sub{ width:40%; height:14px; margin-bottom:8px; }
+    .skeleton-text{ width:100%; height:12px; margin:6px 0; }
+    </style>
+
 
 </head>
 
@@ -47,27 +57,62 @@
 
 
     <script>
+function renderSkeletons(count){
+    var html = '<div class="row gy-40">';
+    for(var i=0;i<count;i++){
+        html += `
+        <div class="col-xl-3 col-lg-6 col-md-6">
+            <div class="food-card-1 style-2">
+                <div class="thumb">
+                    <span class="skeleton skeleton-img"></span>
+                </div>
+                <div class="content">
+                    <span class="skeleton skeleton-title"></span>
+                    <span class="skeleton skeleton-sub"></span>
+                    <span class="skeleton skeleton-text"></span>
+                    <span class="skeleton skeleton-text" style="width:80%;"></span>
+                </div>
+            </div>
+        </div>`;
+    }
+    html += '</div>';
+    html += '<div class="th-pagination d-flex justify-content-center pt-50"><!-- skeleton pagination --></div>';
+    return html;
+}
+
 function loadProducts(categoryId, el) {
 
     // active tab highlight
     document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
     el.classList.add('active');
 
+    // show skeletons while loading
+    document.getElementById('product-area').innerHTML = renderSkeletons(8);
+
     fetch(`{{ route('ajax.products') }}?category_id=` + categoryId)
         .then(res => res.text())
         .then(html => {
             document.getElementById('product-area').innerHTML = html;
+        })
+        .catch(() => {
+            // restore a friendly message on error
+            document.getElementById('product-area').innerHTML = '<p class="text-center">Failed to load products.</p>';
         });
 }
 
-// Pagination AJAX
+// Pagination AJAX with skeletons
 document.addEventListener('click', function(e){
-    if(e.target.closest('.pagination a')){
+    var a = e.target.closest('.pagination a');
+    if(a){
         e.preventDefault();
-        fetch(e.target.closest('a').href)
+        document.getElementById('product-area').innerHTML = renderSkeletons(8);
+        fetch(a.href)
             .then(res => res.text())
             .then(html => {
                 document.getElementById('product-area').innerHTML = html;
+            })
+            .catch(()=>{
+                document.getElementById('product-area').innerHTML = '<p class="text-center">Failed to load products.</p>';
             });
     }
 });
