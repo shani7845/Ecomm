@@ -55,3 +55,39 @@
 .live-search-item.active {
     background: #f1f1f1;
 }
+
+
+
+
+.live-search-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.veg-badge {
+    background: #2ecc71;
+    color: #fff;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.nonveg-badge {
+    background: #e74c3c;
+    color: #fff;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.meta {
+    font-size: 13px;
+    color: #777;
+}

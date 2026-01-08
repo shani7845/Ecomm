@@ -80,11 +80,13 @@ public function ajaxSearch(Request $request)
         return response()->json([]);
     }
 
-    $products = \App\Models\Product::where('status', 1)
-        ->where('name', 'like', '%' . $keyword . '%')
-        ->select('id', 'name', 'slug', 'price', 'image')
-        ->limit(6)
-        ->get();
+    $products = Product::where('status', 1)
+    ->where('name', 'like', '%' . $keyword . '%')
+    ->with('category:id,name')
+    ->select('id','name','slug','price','image','category_id','is_veg')
+    ->limit(6)
+    ->get();
+
 
     return response()->json($products);
 }
