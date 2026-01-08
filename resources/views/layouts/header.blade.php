@@ -157,13 +157,18 @@
     </button>
 
     <form action="{{ route('products.search') }}" method="GET">
-        <input type="text"
-               name="q"
-               placeholder="Search food..."
-               value="{{ request('q') }}"
-               autofocus>
+    <input type="text"
+       id="live-search-input"
+       name="q"
+       placeholder="Search food..."
+       value="{{ request('q') }}"
+       autocomplete="off"
+       autofocus>
+
+               
         <button type="submit">
             <i class="far fa-search"></i>
         </button>
     </form>
+    <div id="live-search-results" class="live-search-results"></div>
 </div>

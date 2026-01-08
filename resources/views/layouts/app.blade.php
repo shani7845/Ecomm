@@ -21,6 +21,7 @@
 
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- @vite(['resources/js/app.js']) -->
+    <link rel="stylesheet" href="{{ asset('assets/css/live-search.css') }}">
 
     <style>
     /* Skeleton loader styles */
@@ -56,6 +57,8 @@
     <script src="{{ asset('assets/js/lenis.min.js') }}"></script>
     <script src="{{ asset('assets/js/wow.min.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="{{ asset('assets/js/live-search.js') }}"></script>
+
 
 
     <script>

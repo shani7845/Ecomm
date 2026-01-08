@@ -36,6 +36,10 @@ Route::get('/product/{slug}', [ProductController::class, 'show'])
     Route::get('/search', [ProductController::class, 'search'])
     ->name('products.search');
 
+    Route::get('/ajax/search-products', [\App\Http\Controllers\ProductController::class, 'ajaxSearch'])
+    ->name('products.ajax.search');
+
+
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');

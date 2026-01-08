@@ -72,4 +72,22 @@ public function search(Request $request)
 }
 
 
+public function ajaxSearch(Request $request)
+{
+    $keyword = $request->get('q');
+
+    if (!$keyword || strlen($keyword) < 2) {
+        return response()->json([]);
+    }
+
+    $products = \App\Models\Product::where('status', 1)
+        ->where('name', 'like', '%' . $keyword . '%')
+        ->select('id', 'name', 'slug', 'price', 'image')
+        ->limit(6)
+        ->get();
+
+    return response()->json($products);
+}
+
+
 }
