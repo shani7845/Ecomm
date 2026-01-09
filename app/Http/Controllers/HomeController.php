@@ -53,7 +53,8 @@ class HomeController extends Controller
 
         $products = Product::where('status', 1)
             ->where('category_id', $categoryId)
-            ->paginate(8);
+            ->paginate(1)
+            ->withQueryString();
 
         return view('partials.products-grid', compact('products'))->render();
     }
