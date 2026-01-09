@@ -15,6 +15,8 @@
     </div>
 </div>
 
+
+
 {{-- SIDE CART --}}
 <div class="sidemenu-wrapper sidemenu-cart">
     <div class="sidemenu-content">
@@ -26,6 +28,57 @@
             <div id="side-cart-content">
                 @include('partials.side-cart')
             </div>
+        </div>
+    </div>
+</div>
+
+{{-- MOBILE MENU STRUCTURE --}}
+<div class="th-menu-wrapper allow-natural-scroll">
+    <div class="th-menu-area text-center">
+        <button class="th-menu-toggle"><i class="fal fa-times"></i></button>
+        <div class="mobile-logo">
+            <a href="{{ url('/') }}">
+                <img src="{{ asset('assets/img/logo.jpg') }}" alt="Scooble" width="80">
+            </a>
+        </div>
+        <div class="th-mobile-menu">
+            <ul>
+                {{-- MAIN CATEGORIES --}}
+                @foreach($menuCategories as $category)
+                    <li class="{{ $category->products->count() ? 'menu-item-has-children' : '' }}">
+                        <a href="{{ route('categories.show', $category->slug) }}">
+                            {{ strtoupper($category->name) }}
+                        </a>
+                        
+                        @if($category->products->count())
+                            <ul class="sub-menu">
+                                @foreach($category->products as $product)
+                                    <li>
+                                        <a href="{{ route('product.show', $product->slug) }}">
+                                            {{ $product->name }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </li>
+                @endforeach
+                
+                {{-- AUTH LINKS FOR MOBILE --}}
+                @auth
+                    <li><a href="{{ route('profile.edit') }}">Profile</a></li>
+                    <li><a href="{{ route('orders.my') }}">My Orders</a></li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="logout-btn">Logout</button>
+                        </form>
+                    </li>
+                @else
+                    <li><a href="{{ route('login') }}">Login</a></li>
+                    <li><a href="{{ route('register') }}">Register</a></li>
+                @endauth
+            </ul>
         </div>
     </div>
 </div>
