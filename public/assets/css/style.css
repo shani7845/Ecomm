@@ -31830,3 +31830,12 @@ span.select2-selection.select2-selection--single:focus {
         margin-left: 80px; /* adjust as per need */
     }
 }
+
+
+.testiSwiper {
+    overflow: hidden;
+}
+
+.swiper-slide {
+    height: auto;
+}

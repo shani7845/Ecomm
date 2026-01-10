@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- @vite(['resources/js/app.js']) -->
     <link rel="stylesheet" href="{{ asset('assets/css/live-search.css') }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
 
     <style>
     /* Skeleton loader styles */
@@ -59,6 +60,32 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="{{ asset('assets/js/live-search.js') }}"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script>
+var swiper = new Swiper(".testiSwiper", {
+    loop: true,
+    spaceBetween: 30,
+    autoplay: {
+        delay: 4000,
+        disableOnInteraction: false,
+    },
+    pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+    },
+    breakpoints: {
+        0: {
+            slidesPerView: 1,   // Mobile
+        },
+        768: {
+            slidesPerView: 1,   // Tablet
+        },
+        1200: {
+            slidesPerView: 2,   // Desktop
+        }
+    }
+});
+</script>
 
 
     <script>

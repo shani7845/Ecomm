@@ -331,43 +331,49 @@
         </div>
 
         <!-- DYNAMIC CONTENT -->
-        <div class="row gy-40 gx-30">
-            @foreach($testimonials as $index => $t)
-                <div class="col-xl-6">
-                    <div class="testi-1-item wow {{ $index % 2 == 0 ? 'fadeinleft' : 'fadeinright' }}"
-                         data-wow-delay=".3s">
+        <div class="swiper testiSwiper">
+    <div class="swiper-wrapper">
 
-                        <div class="client-thumb">
-                            <img src="{{ $t->image
-                                ? asset('storage/'.$t->image)
-                                : asset('assets/img/testimonial/default.png') }}"
-                                alt="img" />
-                        </div>
+        @foreach($testimonials as $index => $t)
+            <div class="swiper-slide">
+                <div class="testi-1-item wow {{ $index % 2 == 0 ? 'fadeinleft' : 'fadeinright' }}"
+                     data-wow-delay=".3s">
 
-                        <div class="content">
-                            <img class="testi-1-quote"
-                                 src="{{ asset('assets/img/icon/testi-1-quote.png') }}"
-                                 alt="icon" />
-                            <p class="box-text">“{{ $t->message }}”</p>
-                        </div>
-
-                        <div class="bottom">
-                            <h4 class="box-title">{{ $t->name }}</h4>
-                            @if($t->company)
-                                <p>{{ $t->company }}</p>
-                            @endif
-
-                            <div class="th-social">
-                                @for($i = 1; $i <= 5; $i++)
-                                    <i class="fa-solid fa-star {{ $i <= $t->rating ? '' : 'opacity-25' }}"></i>
-                                @endfor
-                            </div>
-                        </div>
-
+                    <div class="client-thumb">
+                        <img src="{{ $t->image
+                            ? asset('storage/'.$t->image)
+                            : asset('assets/img/testimonial/default.png') }}" alt="img" />
                     </div>
+
+                    <div class="content">
+                        <img class="testi-1-quote"
+                             src="{{ asset('assets/img/icon/testi-1-quote.png') }}" alt="icon" />
+                        <p class="box-text">“{{ $t->message }}”</p>
+                    </div>
+
+                    <div class="bottom">
+                        <h4 class="box-title">{{ $t->name }}</h4>
+                        @if($t->company)
+                            <p>{{ $t->company }}</p>
+                        @endif
+
+                        <div class="th-social">
+                            @for($i = 1; $i <= 5; $i++)
+                                <i class="fa-solid fa-star {{ $i <= $t->rating ? '' : 'opacity-25' }}"></i>
+                            @endfor
+                        </div>
+                    </div>
+
                 </div>
-            @endforeach
-        </div>
+            </div>
+        @endforeach
+
+    </div>
+
+    <!-- Pagination (Mobile) -->
+    <div class="swiper-pagination"></div>
+</div>
+
     </div>
 </section>
 
