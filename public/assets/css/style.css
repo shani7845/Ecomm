@@ -2440,23 +2440,23 @@ textarea.is-invalid {
 	padding-left: 18px
 }
 
-.th-mobile-menu ul li a:before {
+.th-mobile-menu > ul > li > a:before {
 	content: "";
 	font-family: var(--icon-font);
 	position: absolute;
 	left: 0;
 	top: 12px;
 	margin-right: 10px;
-	display: inline-block
+	display: inline-block;
 }
 
 .th-mobile-menu ul li.th-active>a {
 	color: var(--theme-color)
 }
 
-.th-mobile-menu ul li.th-active>a:before {
+.th-mobile-menu > ul > li.th-active > a:before {
 	-webkit-transform: rotate(90deg);
-	transform: rotate(90deg)
+	transform: rotate(90deg);
 }
 
 .th-mobile-menu ul li ul li {
