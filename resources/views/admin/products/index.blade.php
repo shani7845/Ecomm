@@ -77,7 +77,7 @@ input:checked+.slider:before {
 
                         <td>
                             @if($product->image)
-                            <img src="{{ asset('admin/images/products/' . $product->image) }}" width="60" height="60"
+                            <img src="{{ asset('storage/' . $product->image) }}" width="60" height="60"
                                 style="object-fit:cover;border-radius:6px;">
                             @else
                             <span>No Image</span>

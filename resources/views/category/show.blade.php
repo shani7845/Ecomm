@@ -35,7 +35,7 @@
                     <div class="product-img">
                         <div class="food-mask" data-mask-src="{{ asset('assets/img/bg/menu-1-msk-bg.png') }}"></div>
 
-                        <img src="{{ asset('admin/images/products/'.$product->image) }}" alt="{{ $product->name }}" />
+                        <img src="{{ asset('storage/'.$product->image) }}" alt="{{ $product->name }}" />
 
                         <div class="actions">
                             <a href="{{ route('product.show', $product->slug) }}" class="icon-btn"><i

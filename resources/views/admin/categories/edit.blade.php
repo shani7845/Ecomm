@@ -62,7 +62,7 @@
                    <fieldset>
                        <div class="body-title">Upload images <span class="tf-color-1">*</span></div>
                        @if($category->image)
-                       <img src="{{ asset('admin/images/categories/'.$category->image) }}" width="80" class="mb-10">
+                       <img src="{{ asset('storage/'.$category->image) }}" width="80" class="mb-10">
                        @endif
                        <div class="upload-image flex-grow">
                            <div class="item up-load">

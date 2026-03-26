@@ -30,7 +30,7 @@
                                  data-mask-src="{{ asset('assets/img/bg/menu-1-msk-bg.png') }}">
                             </div>
 
-                            <img src="{{ asset('admin/images/products/'.$product->image) }}"
+                            <img src="{{ asset('storage/'.$product->image) }}"
                                  alt="{{ $product->name }}">
 
                             <div class="actions">

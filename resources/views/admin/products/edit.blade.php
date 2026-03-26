@@ -63,7 +63,7 @@
                     <div class="body-title mb-10">Product Image</div>
 
                     @if($product->image)
-                    <img src="{{ asset('admin/images/products/' . $product->image) }}" width="120" class="mb-10">
+                    <img src="{{ asset('storage/' . $product->image) }}" width="120" class="mb-10">
                     @endif
 
                     <input type="file" name="image">

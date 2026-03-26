@@ -48,7 +48,7 @@
                         <tr class="cart_item">
                             <td>
                                 <a href="{{ route('product.show', is_array($item) ? $item['slug'] : $item->product->slug) }}">
-                                    <img width="91" src="{{ asset('admin/images/products/'.$image) }}">
+                                    <img width="91" src="{{ asset('storage/'.$image) }}">
                                 </a>
                             </td>
 

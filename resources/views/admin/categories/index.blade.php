@@ -24,7 +24,7 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>
                     @if($category->image)
-                    <img src="{{ asset('admin/images/categories/'.$category->image) }}" width="50">
+                    <img src="{{ asset('storage/'.$category->image) }}" width="50">
                     @endif
                 </td>
                 <td>{{ $category->name }}</td>

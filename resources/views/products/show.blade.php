@@ -10,13 +10,13 @@
                 <div class="product-big-img">
                     <div class="food-mask" data-mask-src="assets/img/bg/menu-1-msk-bg.png"></div>
                     <div class="img">
-                        <img id="main-product-image" src="{{ $product->image ? asset('admin/images/products/'.$product->image) : asset('admin/images/no-image.png') }}"
+                        <img id="main-product-image" src="{{ $product->image ? asset('storage/'.$product->image) : asset('admin/images/no-image.png') }}"
                             alt="Product Image">
                     </div>
 
                     <div class="thumbs mt-3 d-flex gap-2">
                         @php
-                            $imageUrl = $product->image ? asset('admin/images/products/'.$product->image) : asset('admin/images/no-image.png');
+                            $imageUrl = $product->image ? asset('storage/'.$product->image) : asset('admin/images/no-image.png');
                             $thumbs = [$imageUrl];
                         @endphp
 
@@ -120,7 +120,7 @@
                 <div class="col-xl-3 col-lg-4 col-md-6">
                     <div class="food-card-1 style-2">
                         <div class="thumb">
-                            <img src="{{ asset('admin/images/products/'.$rp->image) }}" alt="{{ $rp->name }}">
+                            <img src="{{ asset('storage/'.$rp->image) }}" alt="{{ $rp->name }}">
                         </div>
                         <div class="content">
                             <h4 class="price">₹{{ $rp->price }}</h4>

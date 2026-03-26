@@ -77,7 +77,7 @@
                             {{-- Category Image --}}
                             <div class="box-icon">
                                 <a href="{{ route('categories.show', $category->slug) }}">
-                                    <img src="{{ asset('admin/images/categories/'.$category->image) }}"
+                                    <img src="{{ asset('storage/'.$category->image) }}"
                                         alt="{{ $category->name }}">
                                 </a>
                             </div>
@@ -226,7 +226,7 @@
 
                                 <div class="thumb global-img"
                                     data-mask-src="{{ asset('assets/img/bg/menu-1-msk-bg.jpg') }}">
-                                    <img src="{{ asset('admin/images/products/'.$product->image) }}"
+                                    <img src="{{ asset('storage/'.$product->image) }}"
                                         alt="{{ $product->name }}" />
                                 </div>
 

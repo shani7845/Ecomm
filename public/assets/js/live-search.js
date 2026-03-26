@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         html += `
                             <a href="/product/${product.slug}" class="live-search-item">
-                                <img src="/admin/images/products/${product.image}">
+                                <img src="/storage/${product.image}">
                                 <div class="live-search-info">
                                     <div class="title-row">
                                         <strong>${product.name}</strong>

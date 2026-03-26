@@ -26,7 +26,7 @@ $subtotal = 0;
         </span>
 
         <a href="#">
-            <img src="{{ asset('admin/images/products/'.$image) }}">
+            <img src="{{ asset('storage/'.$image) }}">
             {{ $name }}
         </a>
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -42,9 +43,7 @@ class CategoryController extends Controller
 
         // Image upload
         if ($request->hasFile('image')) {
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('admin/images/categories'), $imageName);
-            $data['image'] = $imageName;
+            $data['image'] = $request->file('image')->store('categories', 'public');
         }
 
         Category::create($data);
@@ -93,13 +92,10 @@ class CategoryController extends Controller
 
         // Image upload (replace old)
         if ($request->hasFile('image')) {
-            if ($category->image && file_exists(public_path('admin/images/categories/'.$category->image))) {
-                unlink(public_path('admin/images/categories/'.$category->image));
+            if ($category->image && Storage::disk('public')->exists($category->image)) {
+                Storage::disk('public')->delete($category->image);
             }
-
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('admin/images/categories'), $imageName);
-            $data['image'] = $imageName;
+            $data['image'] = $request->file('image')->store('categories', 'public');
         }
 
         $category->update($data);
@@ -112,8 +108,8 @@ class CategoryController extends Controller
     // Delete category
     public function destroy(Category $category)
     {
-        if ($category->image && file_exists(public_path('admin/images/categories/'.$category->image))) {
-            unlink(public_path('admin/images/categories/'.$category->image));
+        if ($category->image && Storage::disk('public')->exists($category->image)) {
+            Storage::disk('public')->delete($category->image);
         }
 
         $category->delete();
